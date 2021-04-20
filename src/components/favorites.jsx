@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const Favorites = () => {
+export const Favorites = (props) => {
     return (
         <div>
-            <h2>Home | Favorites (0)</h2>
+            <h2>Home | Favorites ({props.totalFavorite})</h2>
         </div>
     )
 }

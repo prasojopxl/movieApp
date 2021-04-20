@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import { Favorites } from './favorites';
+import heart from "../assets/images/heart.svg";
+import heartFill from "../assets/images/heart-fill.svg";
 
 export const Movie = () => {
     const keyApi = "443a52796239920505dc17c17729bb40";
@@ -7,9 +10,12 @@ export const Movie = () => {
     const [movie, setMovie] = useState([]);
     const [genre, setGenre] = useState([]);
     const [genreId, setGenreId] = useState([28])
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
+    const [favFilm, setFavFilm] = useState(0)
 
     const getData = () => {
+        console.log(movie);
+
         axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${keyApi}&with_genres=${genreId}&page=${page}`)
         .then((res)=> {
             setMovie(res.data.results)
@@ -32,17 +38,29 @@ export const Movie = () => {
         })
     }
 
+    const hanldeFavorite = (id) => {
+        console.log(id)
+        setFavFilm(localStorage.length)    
+
+        if(id !== undefined) {
+            localStorage.getItem(id) ? localStorage.removeItem(id) :   localStorage.setItem(id, "favorite")  ;  
+            // localStorage.setItem(id, "favorite") 
+            // localStorage.removeItem(id); 
+            setFavFilm(localStorage.length) 
+        }
+    }
     useEffect(()=> {
         getData();
+        hanldeFavorite();
         axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${keyApi}&language=en-US`)
         .then((res)=> {
             setGenre(res.data.genres);
         })
     },[])
 
-
     return (
         <div>
+            <Favorites totalFavorite={favFilm}/>
             <h2>Discover</h2>
             <select onChange={(e)=>handleChange(e.target.value)}>
                 {genre.map((item, index)=> {
@@ -57,7 +75,13 @@ export const Movie = () => {
                     return (
                         <div className="col-2" key={i}>
                             <div className="item-movie" key={i}>
-                                <div className="imgwrp"><img src={`${pathImage}`+item.poster_path} alt={item.original_title}/></div>
+                                <div className="imgwrp">
+                                    <div className="btnfav" onClick={()=>hanldeFavorite(item.id)}>
+                                    {localStorage.getItem(item.id)? <img src={heartFill} alt=""/> : <img src={heart} alt=""/> }            
+                                    </div>
+                                    
+                                    <img src={`${pathImage}`+item.poster_path} alt={item.original_title}/>
+                                </div>
                                 <h4>{item.original_title}</h4>
                             </div>
                         </div>

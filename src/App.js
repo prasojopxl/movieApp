@@ -5,7 +5,6 @@ import {Favorites, Movie} from "./components/";
 export const App = () => {  
   return (
     <div className="container">
-      <Favorites/>
       <Movie/>
     </div>
   )

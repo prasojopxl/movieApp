@@ -22,7 +22,7 @@ h2 {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto; 
-    padding: 50px 0;
+    padding: 50px 10px;
     font-size: 16px;   
 }
 
@@ -30,8 +30,8 @@ h2 {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;    
+    margin-right: -10px;
+    margin-left: -10px;    
     .col-2 {
         flex: 0 0 20%;
         -ms-flex: 0 0 20%;        
@@ -47,6 +47,7 @@ h2 {
     .imgwrp {
         max-height: 323px;
         overflow: hidden;
+        position: relative;
     }
 }
 
@@ -68,7 +69,25 @@ h2 {
     cursor: pointer;
 }
 
+.btnfav {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
 select {
     padding: 5px 10px;
     margin-bottom: 20px;
+}
+
+/* Desktop small screen */
+@media (max-width: 992px) {
+    .row {
+        .col-2 {
+            flex: 0 0 50%;
+            -ms-flex: 0 0 50%;
+            max-width:50%
+        }
+    }
 }
