@@ -1,7 +1,5 @@
 $color-black: #222831;
-$color-gray: #dddddd;
-$color-gray2: #30475e;
-$color-red: #f05454;
+$color-orange: #ff8303;
 
 *, ::after, ::before {
     box-sizing: border-box;
@@ -46,6 +44,28 @@ h2 {
     h4 {
         margin: 7px 0;
     }
+    .imgwrp {
+        max-height: 323px;
+        overflow: hidden;
+    }
+}
+
+.itemcenter {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+.btnloadmore {
+    background: $color-orange;
+    margin: 0 auto;
+    display: inline-block;
+    padding: 10px 20px;
+    border:none;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 select {

@@ -7,29 +7,35 @@ export const Movie = () => {
     const [movie, setMovie] = useState([]);
     const [genre, setGenre] = useState([]);
     const [genreId, setGenreId] = useState([28])
-
+    const [page, setPage] = useState(1)
 
     const getData = () => {
-        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${keyApi}&with_genres=${genreId}`)
+        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${keyApi}&with_genres=${genreId}&page=${page}`)
         .then((res)=> {
-            console.log(res.data)
             setMovie(res.data.results)
         })
     }
 
-
     const handleChange = (e) => {
-        setGenreId(e)
-        getData();
-        console.log(genreId)
+        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${keyApi}&with_genres=${e}`)
+        .then((res)=> {
+            setGenreId(e)
+            setMovie(res.data.results)
+        })
+    }
+
+    const handleLoad = () => {
+        setPage(page+1)
+        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${keyApi}&with_genres=${genreId}&page=${page}`)
+        .then((res)=> {
+            setMovie([...movie, ...res.data.results])
+        })
     }
 
     useEffect(()=> {
         getData();
-
         axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${keyApi}&language=en-US`)
         .then((res)=> {
-            console.log(res.data.genres)
             setGenre(res.data.genres);
         })
     },[])
@@ -59,6 +65,8 @@ export const Movie = () => {
                 })
             }
             </div>
+
+            <div className="itemcenter"><button className="btnloadmore" onClick={()=>handleLoad()}>Load More</button></div>
 
         </div>
     )
