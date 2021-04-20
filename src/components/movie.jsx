@@ -14,7 +14,6 @@ export const Movie = () => {
     const [favFilm, setFavFilm] = useState(0)
 
     const getData = () => {
-        console.log(movie);
 
         axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${keyApi}&with_genres=${genreId}&page=${page}`)
         .then((res)=> {
@@ -38,17 +37,17 @@ export const Movie = () => {
         })
     }
 
-    const hanldeFavorite = (id) => {
-        console.log(id)
-        setFavFilm(localStorage.length)    
-
+    const hanldeFavorite = (id,i) => {
+        setFavFilm(localStorage.length);    
         if(id !== undefined) {
             localStorage.getItem(id) ? localStorage.removeItem(id) :   localStorage.setItem(id, "favorite")  ;  
-            // localStorage.setItem(id, "favorite") 
-            // localStorage.removeItem(id); 
-            setFavFilm(localStorage.length) 
+            setFavFilm(localStorage.length);
+            for (var i = 0; i < localStorage.length; i++) {
+                console.log(localStorage.key(i))
+            }
         }
     }
+
     useEffect(()=> {
         getData();
         hanldeFavorite();
@@ -76,19 +75,23 @@ export const Movie = () => {
                         <div className="col-2" key={i}>
                             <div className="item-movie" key={i}>
                                 <div className="imgwrp">
-                                    <div className="btnfav" onClick={()=>hanldeFavorite(item.id)}>
+                                    <div className="btnfav" onClick={()=>hanldeFavorite(item.id, i)}>
                                     {localStorage.getItem(item.id)? <img src={heartFill} alt=""/> : <img src={heart} alt=""/> }            
                                     </div>
-                                    
                                     <img src={`${pathImage}`+item.poster_path} alt={item.original_title}/>
                                 </div>
+                                <h5>Rate: {item.vote_average}</h5>
                                 <h4>{item.original_title}</h4>
+
                             </div>
                         </div>
                     )
                 })
             }
+            
             </div>
+
+
 
             <div className="itemcenter"><button className="btnloadmore" onClick={()=>handleLoad()}>Load More</button></div>
 
